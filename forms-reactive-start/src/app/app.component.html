@@ -11,7 +11,8 @@
               class="form-control"
               [formControlName] = "'username'">
           </div>
-          <span class="help-block" *ngIf = "!signupform.get('userData.username').valid && signupform.get('userData.username').touched">Please Fill the username!!</span>
+          <span *ngIf = "!signupform.get('userData.username').valid && signupform.get('userData.username').touched" class="help-block"> <span *ngIf = "signupform.get('userData.username').errors['nameIsForbidden']">This user name is invalid</span>
+          <span *ngIf = "signupform.get('userData.username').errors['required']">This user name is required</span></span>
           <div class="form-group">
             <label for="email">email</label>
             <input
@@ -20,7 +21,9 @@
               class="form-control"
               formControlName = "email">
           </div>
-          <span class="help-block" *ngIf="!signupform.get('userData.email').valid && signupform.get('userData.email').touched">Please Enter the email!!</span>
+          <span class="help-block" *ngIf="!signupform.get('userData.email').valid && signupform.get('userData.email').touched"><span *ngIf = "signupform.get('userData.email').errors['emailIsForbidden']">This Email Is Invalid!!</span>
+        <span *ngIf = "signupform.get('userData.email').errors['required']">This Is a required Field</span>
+      </span>
         </div>
         <div class="radio" *ngFor="let gender of genders">
           <label>
@@ -30,6 +33,12 @@
               formControlName = "gender">{{ gender }}
           </label>
         </div>
+        <div formArrayName="hobbies"><h4>Your Hobbies
+          <button class="btn btn-default" type="button" (click) = "onAddHobby()">Add Hobby</button>
+          <div class="form-group" *ngFor = "let hobbyControl of signupform.get('hobbies').controls; let i = index">
+            <input type="text" class="form-control" [formControlName]="i">
+          </div>
+        </h4></div>
         <button class="btn btn-primary" type="submit">Submit</button>
       </form>
       <span class="help-block" *ngIf="!signupform.valid && signupform.touched">Please take care of the form</span>
